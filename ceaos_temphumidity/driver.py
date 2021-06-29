@@ -1,30 +1,19 @@
-import sys
-import os
-import time
+from time import sleep
 import zmq
-os.chdir('pigpio_dht22')
-sys.path.append("/home/pi/pigpio_dht22")
-import pigpio
-import DHT22
+import json
+from .temphumidity import TempHumiditySensor
 
-#s is sensor made in config file, must be passed
-def driver():
+if __name__ == "__main__":
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:23267")
-    pi = pigpio.pi()
-    s = DHT22.sensor(pi, 4)
+    sensor = TempHumiditySensor()
+
     while True:
-        if s.humidity is not None and s.temperature is not None:
-            #send to cea-os using zeromq Api
-            farenheit = (s.temperature() * 1.8) + 32
-            payload = {
-                "action": "temp.read",
-                "cea-addr": "farm1.env1.airtemp",
-                "payload": [farenheit, s.humidity()]
-            }
-            socket.send_json(payload)
+        payload = sensor.read_value()
+        if payload == "error":
+            socket.send('Error: sensor read failed')
             #print('Temp: {:.2f} C Humidity: {:.2f}'.format(s.temperature(), s.humidity()))
         else:
-            socket.send('Error: sensor read failed')
-        time.sleep(3)
+            socket.send_json(payload)
+        sleep(3)
