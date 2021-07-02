@@ -15,7 +15,7 @@ class TempHumiditySensor():
         if self.s.humidity is not None and self.s.temperature is not None:
             farenheit = (self.s.temperature() * 1.8) + 32
             payload = {
-                "action": "temp.read",
+                "action": "recv_value",
                 "cea-addr": "farm1.env1.bed1.airtemp",
                 "payload": [farenheit, self.s.humidity()]
             }
