@@ -13,7 +13,6 @@ if __name__ == "__main__":
         payload = sensor.read_value()
         if payload == "error":
             socket.send('Error: sensor read failed')
-            #print('Temp: {:.2f} C Humidity: {:.2f}'.format(s.temperature(), s.humidity()))
         else:
             socket.send_json(payload)
         sleep(3)

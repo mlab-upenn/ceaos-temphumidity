@@ -16,8 +16,11 @@ class TempHumiditySensor():
             farenheit = (self.s.temperature() * 1.8) + 32
             payload = {
                 "action": "recv_value",
-                "cea-addr": "farm1.env1.bed1.airtemp",
-                "payload": [farenheit, self.s.humidity()]
+                "cea-addr": "farm1.env1.bed1.airtemp+humidity",
+                "payload": {
+                    "air temperature": farenheit,
+                    "humidity": self.s.humidity
+                }
             }
         else:
             return "error"
