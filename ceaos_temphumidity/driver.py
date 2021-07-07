@@ -6,7 +6,7 @@ from temphumidity import TempHumiditySensor
 if __name__ == "__main__":
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
-    socket.connect("tcp://10.103.105.181:23267")
+    socket.connect("tcp://10.103.105.181:23267")    # Replace with your IP address
     sensor = TempHumiditySensor()
 
     while True:
