@@ -1,4 +1,5 @@
 import os
+import json
 import pigpio
 import DHT22
 os.chdir("pigpio_dht22")  # so that new module is in the right path
@@ -14,14 +15,16 @@ class TempHumiditySensor():
         self.s.trigger()
         if self.s.humidity is not None and self.s.temperature is not None:
             farenheit = (self.s.temperature() * 1.8) + 32
-            payload = {
-                "action": "recv_value",
-                "cea-addr": "farm1.env1.bed1.air",
-                "payload": {
-                    "air temperature": farenheit,
-                    "humidity": self.s.humidity
+            payload = json.dumps(
+                {
+                    "action": "recv_value",
+                    "cea-addr": "farm1.env1.bed1.air",
+                    "payload": {
+                        "air temperature": farenheit,
+                        "humidity": self.s.humidity
+                    }
                 }
-            }
+            )
         else:
             return "error"
 

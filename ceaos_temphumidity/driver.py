@@ -6,7 +6,7 @@ from .temphumidity import TempHumiditySensor
 if __name__ == "__main__":
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
-    socket.connect("tcp://localhost:23267")
+    socket.connect("tcp://10.103.105.181:23267")
     sensor = TempHumiditySensor()
 
     while True:
@@ -14,5 +14,9 @@ if __name__ == "__main__":
         if payload == "error":
             socket.send('Error: sensor read failed')
         else:
-            socket.send_json(payload)
+            socket.send_string(payload)
+        
+        reply = socket.recv()
+        reply = json.loads(reply)
+        print(reply)
         sleep(3)
