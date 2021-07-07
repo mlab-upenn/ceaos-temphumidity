@@ -19,4 +19,4 @@ if __name__ == "__main__":
         reply = socket.recv()
         reply = json.loads(reply)
         print(reply)
-        sleep(3)
+        sleep(600)
