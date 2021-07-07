@@ -1,7 +1,7 @@
 from time import sleep
 import zmq
 import json
-from .temphumidity import TempHumiditySensor
+from temphumidity import TempHumiditySensor
 
 if __name__ == "__main__":
     context = zmq.Context()
