@@ -13,18 +13,23 @@ class TempHumiditySensor():
 
     def read_value(self):
         self.s.trigger()
-        if self.s.humidity is not None and self.s.temperature is not None:
-            farenheit = (self.s.temperature() * 1.8) + 32
+        while self.s.humidity() == -999 and self.s.temperature() == -999:
+            time.sleep(1)
+        if self.s.humidity() is not None and self.s.temperature() is not None:
+            farenheit = self.s.temperature()
+            humidity = self.s.humidity()
+            farenheit = (farenheit * 1.8) + 32
             payload = json.dumps(
                 {
                     "action": "recv_value",
                     "cea-addr": "farm1.env1.bed1.air",
                     "payload": {
                         "air temperature": farenheit,
-                        "humidity": self.s.humidity
+                        "humidity": humidity
                     }
                 }
             )
+            return payload
         else:
             return "error"
 
