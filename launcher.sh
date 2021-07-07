@@ -4,6 +4,6 @@
 cd /
 cd home/pi/ceaos-temphumidity
 sudo python3 setup.py install
-cd ceao_temphumidity
+cd ceaos_temphumidity
 sudo python3 driver.py
 cd /
