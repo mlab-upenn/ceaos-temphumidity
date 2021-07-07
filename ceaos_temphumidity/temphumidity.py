@@ -1,9 +1,9 @@
 import os
 import json
 import pigpio
-import DHT22
 os.chdir("pigpio_dht22")  # so that new module is in the right path
-
+sys.path.append("/home/pi/pigpio_dht22")
+import DHT22
 
 class TempHumiditySensor():
     def __init__(self, gpio=4):
